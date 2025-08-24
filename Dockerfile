@@ -9,12 +9,16 @@ ENV PUID=1000 \
     COMPOSER_PLUGIN_MODE=false \
     ENABLE_REDIS=false \
     ENABLE_WEB_UPDATER=false \
-    INIT_BASE_URL=https://azuracast-production-0c14.up.railway.app
+    INIT_BASE_URL=https://azuracast-production-0c14.up.railway.app \
+    PORT=3000
 
 EXPOSE 80
 EXPOSE 8000-8005
 
+# Asegurarse de que supervisord use los puertos correctos
+RUN sed -i 's/80:80/3000:80/' /etc/nginx/conf.d/default.conf
+
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-    CMD curl -f http://localhost/api/nowplaying_static/admin.json || exit 1
+    CMD curl -f http://localhost:3000/api/nowplaying_static/admin.json || exit 1
 
 CMD ["/usr/local/bin/my_init"]
