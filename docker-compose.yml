@@ -4,15 +4,14 @@ services:
   web:
     build: .
     ports:
-      - "${PORT:-8080}:8080"
+      - "8080:8080"
       - "8000-8005:8000-8005"
     environment:
+      - PORT=8080
       - MYSQL_HOST=db
       - MYSQL_PORT=3306
-      - MYSQL_USER=azuracast
-      - MYSQL_PASSWORD=azuracast_password
       - MYSQL_DATABASE=azuracast
-      - PORT=8080
+      # Las credenciales de la base de datos se configurarán en Railway
     depends_on:
       - db
     restart: unless-stopped
@@ -20,13 +19,6 @@ services:
   db:
     image: mariadb:latest
     environment:
-      - MYSQL_ROOT_PASSWORD=root_secure_password
       - MYSQL_DATABASE=azuracast
-      - MYSQL_USER=azuracast
-      - MYSQL_PASSWORD=azuracast_password
-    volumes:
-      - db_data:/var/lib/mysql
+      # Las credenciales de la base de datos se configurarán en Railway
     restart: unless-stopped
-
-volumes:
-  db_data:
