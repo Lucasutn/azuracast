@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "80:80"
+      - "8000-8005:8000-8005"
+    environment:
+      - MYSQL_HOST=db
+      - MYSQL_PORT=3306
+      - MYSQL_USER=azuracast
+      - MYSQL_PASSWORD=azuracast_pw
+      - MYSQL_DATABASE=azuracast
+    depends_on:
+      - db
+
+  db:
+    image: mariadb:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=root_password
+      - MYSQL_DATABASE=azuracast
+      - MYSQL_USER=azuracast
+      - MYSQL_PASSWORD=azuracast_pw
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
