@@ -5,7 +5,8 @@ ENV PUID=1000 \
     APPLICATION_ENV=production \
     AUTO_ASSIGN_PORT_MIN=8000 \
     AUTO_ASSIGN_PORT_MAX=8005 \
-    MYSQL_RANDOM_ROOT_PASSWORD=yes
+    MYSQL_RANDOM_ROOT_PASSWORD=yes \
+    INIT_BASE_URL=https://azuracast-production-0c14.up.railway.app
 
 EXPOSE 80
 EXPOSE 443
