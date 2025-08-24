@@ -4,7 +4,7 @@ services:
   web:
     build: .
     ports:
-      - "3000:80"
+      - "${PORT:-3000}:3000"
       - "8000-8005:8000-8005"
     environment:
       - MYSQL_HOST=db
