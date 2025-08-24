@@ -4,7 +4,7 @@ services:
   web:
     build: .
     ports:
-      - "80:80"
+      - "${PORT:-8080}:8080"
       - "8000-8005:8000-8005"
     environment:
       - MYSQL_HOST=db
@@ -12,6 +12,7 @@ services:
       - MYSQL_USER=azuracast
       - MYSQL_PASSWORD=azuracast_password
       - MYSQL_DATABASE=azuracast
+      - PORT=8080
     depends_on:
       - db
     restart: unless-stopped
