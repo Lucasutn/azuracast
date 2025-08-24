@@ -13,5 +13,3 @@ EXPOSE 8000-8005
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
     CMD curl -f http://localhost/api/nowplaying_static/admin.json || exit 1
-
-VOLUME ["/var/azuracast"]
