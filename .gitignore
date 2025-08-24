@@ -1,0 +1,15 @@
+# Logs
+logs/
+*.log
+
+# Environment variables
+.env
+.env.*
+
+# Volume data
+data/
+volumes/
+
+# System Files
+.DS_Store
+Thumbs.db

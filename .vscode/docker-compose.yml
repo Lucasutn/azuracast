@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  azuracast:
+    image: azuracast/azuracast:stable
+    container_name: azuracast
+    restart: unless-stopped
+    
+    # Puertos necesarios
+    ports:
+      - "80:80"
+      - "443:443"  
+      - "8000-8005:8000-8005"  # Ajusta según tus estaciones
+    
+    # Configuración básica para evitar errores de DB
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - APPLICATION_ENV=production
+      - AUTO_ASSIGN_PORT_MIN=8000
+      - AUTO_ASSIGN_PORT_MAX=8005
+      - INIT_BASE_URL=http://localhost
+      - AZURACAST_DB_HOST=localhost
+      - MYSQL_RANDOM_ROOT_PASSWORD=yes
+    
+    # Volúmenes para persistir datos importantes
+    volumes:
+      - azuracast_data:/var/azuracast
+    
+    # Health check simple
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost/api/nowplaying_static/admin.json || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+volumes:
+  azuracast_data:
+    driver: local
