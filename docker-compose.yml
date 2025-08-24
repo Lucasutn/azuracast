@@ -4,38 +4,27 @@ services:
   web:
     build: .
     ports:
-      - "${PORT:-3000}:3000"
+      - "80:80"
       - "8000-8005:8000-8005"
     environment:
       - MYSQL_HOST=db
       - MYSQL_PORT=3306
       - MYSQL_USER=azuracast
-      - MYSQL_PASSWORD=azuracast_pw
+      - MYSQL_PASSWORD=azuracast_password
       - MYSQL_DATABASE=azuracast
-      - PREFER_RELEASE_BUILDS=true
-      - COMPOSER_PLUGIN_MODE=false
-      - ENABLE_REDIS=false
-      - ENABLE_WEB_UPDATER=false
-      - PORT=3000
     depends_on:
-      db:
-        condition: service_healthy
+      - db
     restart: unless-stopped
 
   db:
     image: mariadb:latest
     environment:
-      - MYSQL_ROOT_PASSWORD=root_password
+      - MYSQL_ROOT_PASSWORD=root_secure_password
       - MYSQL_DATABASE=azuracast
       - MYSQL_USER=azuracast
-      - MYSQL_PASSWORD=azuracast_pw
+      - MYSQL_PASSWORD=azuracast_password
     volumes:
       - db_data:/var/lib/mysql
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      timeout: 20s
-      retries: 10
-      interval: 5s
     restart: unless-stopped
 
 volumes:
